@@ -29,7 +29,6 @@ export default defineConfig({
 				discord: 'https://discord.gg',
 			},
 			sidebar: [
-				{ label: "Introduction", slug: "introduction" },
 				...getSidebar("./src/content/docs/getting-started", false),
 				...getSidebar("./src/content/docs/language-manager", true),
 				...getSidebar("./src/content/docs/language-wizard", true),

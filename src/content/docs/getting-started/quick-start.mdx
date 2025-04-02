@@ -4,3 +4,57 @@ slug: getting-started/quick-start
 sidebar:
   order: 5
 ---
+
+This topic describes the first steps you should do to apply Localizer to your project and make your application multilingual:
+
+## Enable localization
+Open your project and select `Localizer | Project Settings` menu item (note: before opening the dialog, be sure that the project is compiled without errors). Mark `Localization Enabled` check box, select the edition of Localizer, which will be used (`Standard` or `OnFly`) and press `OK`. 
+After that, new file `<projectname>.ntv.lng` will be created in the project folder and new subitems will appear in the `Localizer` menu.
+
+## Translate the resources
+- Start Language Manager (`Localizer | Language Manager` menu item). The file `<projectname>.ntv.lng` will be opened. This is the language file, which contains native project resources.
+- [Create new language file]().
+- [Translate]() appropriate strings and save language file (`File | Save Language`).
+- In case of using `Standard edition` [create resource DLL]() on the basis of newly created language file.
+
+## Applying to the project
+This part depends on the edition you use. Let's consider both cases:
+
+### Standard edition
+If the extension of created DLL (it is set during language file creation) corresponds to current system locale then your application will automatically load it when starting 
+(DLL must be placed in the same folder as an EXE file). Otherwise, it is necessary to add some code for resource DLL loading. All needed procedures are included into the LocUtils.pas unit (comes with full source code). It is placed in `Localizer\Lib` folder. This unit defines special class – `TKLocUtils` that contains several methods and events to organize user interface for language switching
+The most simple way to apply this class to your application is to place Localizer.Init or Localize.InitReg call at the beginning of your program (in the first code line of the .dpr file) and then to call PopulateMenu method in the `OnCreate` or `OnShow` handler of the `main form`.
+
+To learn more about LocUtils unit read [LocUtils API](/localizer-references/localizer-utils) topic.
+To get an example of using see demo project Editor ([Localizer\Samples\Editor](https://)).
+
+### Pro edition.
+Using `OnFly` edition you should add `LocOnFly` unit into the `uses` list of your .dpr file 
+(it will be done automatically by the wizard if you selected `Add Localizer API` check box in the `Project Settings` dialog). 
+Then it is necessary to add the following code at the beginning of your program:
+`LocalizerOnFly.Init;` or `LocalizerOnFly.InitReg;`
+
+> (`LocalizerOnFly->Init()` or `LocalizerOnFly->InitReg()` for C++ Builder)
+
+To create user interface for language switching you can call `PopulateMenu` method in the `OnCreate` or `OnShow` handler of the `main form`.
+
+To learn more about [LocOnFly unit](/localizer-references/loc-on-fly) read [LocOnFly API](/localizer-references/loc-on-fly) topic.
+To get an example of using see demo project EditorOnFly (Localizer\Samples\EditorOnFly).
+
+:::note
+**Note for C++Builder users:**
+You should manually add \<projectname\>_klr.res file into your project (using Project Manager dialog):
+In addition you should manually include locutils.hpp or loconfly.hpp header file in all units where you plan to use Localizer or LocalizerOnFly global object (at least you should include that header into \<yourprojectname\>.cpp file).
+:::
+
+## Refreshing
+You have to refresh language files if some changes are made in your project ("Localizer | Refresh Language Files"). Be sure that the project is compiled without errors before refreshing. Then repeat previous steps (except new language file creation).
+
+## Change size and positions of the controls
+If you need to change sizes and/or positions of the controls in your translation then you should add corresponding properties into the native language file. To do that - just add the following rules into "Property rules" list in "Project Settings" dialog:
++.Width
++.Height
++.Left
++.Top
+
+Then make "Refresh" operation. All properties list in the rules above will be added into native and other language files - so the translator can change them if necessary. Language Manager has special filter which can be used to hide non-textual properties (like Width or Height) if they impede translation of string properties. 
