@@ -21,13 +21,16 @@ export default defineConfig({
 		starlight({
 			title: 'Localizer',
 			favicon: '/favicon.ico',
+			editLink: {
+				baseUrl: 'https://github.com/korzhcom-content/localizer-docs/edit/main/',
+			},
 			social: {
 				github: 'https://github.com/korzhcom-content/localizer-docs',
 				discord: 'https://discord.gg',
 			},
 			sidebar: [
 				{ label: "Introduction", slug: "introduction" },
-				...getSidebar("./src/content/docs/getting-started", true),
+				...getSidebar("./src/content/docs/getting-started", false),
 				...getSidebar("./src/content/docs/language-manager", true),
 				...getSidebar("./src/content/docs/language-wizard", true),
 				...getSidebar("./src/content/docs/localizer-references", true),
