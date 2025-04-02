@@ -4,3 +4,38 @@ slug: getting-started/new-in-3x
 sidebar:
   order: 3
 ---
+
+## Delphi packages and DLLs localization
+Now you can use Localizer to translate interface elements (forms, resourcestrings) not only in the main application (.EXE) but also in DLL and packages. 
+
+Read more about this in the [DLL localization](/getting-started/dll-localization) section.
+
+## "Switch native language" operation
+Allows to change the language of the strings on all forms and units at design time. The main purpose of this operation is to provide the developer with an ability to see how the program looks translated and change the sizes and positions of the components if it is necessary. It can be used also to make the translation directly in the IDE without using Language Manager utility.
+
+Read more about this in the [Switch native language](/language-wizard/switch) section.
+
+## Language files compression
+Localizer now can compress language files. Compressed file usually has up to 2-3 times smaller size then original one. This function is the most useful in combination with the next feaure - the ability to link language files into .EXE.
+
+## Abiltity to link translations into .EXE file (applied to Pro edition only)
+Now the developer can make Localizer to place all or several language files into .EXE (as resources). Linked language files can be used the same way as usual "physical" files through most of [LocOnFly API](/localizer-references/loc-on-fly/tkloconfly-class) functions: LangList property, SwitchTo, SwitchToExt, PopulateMenu and other methods.
+Both methods (linking languages into EXE and using them as separate files) can be combined in one application. In such case LangList property will contain total list of languages.
+
+## "Extract hardcoded strings" operation for C++ Builder projects
+For C++ Builder version of Localizer. It is intended to process .cpp files, extact string contants which should be translated and place them into separate .pas file (into resourcestring section) or .rc file. The generated file should be included then into the project.
+
+Read more about this in the [Extract hardcoded strings](/language-wizard/hardcoded-strings) section.
+
+## Ability to specify list of additional units for "Extract hardcoded strings" operation
+"Extract hardcoded strings" operation works with units which are part of the project. Using this feature the developer can specify the list of additional units which will be also processed.
+
+Read more about additional units in the [Language Wizard/Project Settings](/language-wizard/project-settings-dialog) section.
+
+## Ability to rebuild project totally on each "Refresh language files" operation
+Now the developer can specify if the project should be totally rebuilt during "Refresh" operation (all units will be recompiled in such case) or should be just compiled in "make" mode (only the units which were changed will be recompiled).
+
+## Changed interface of several functions in LocUtils unit
+Some names of methods and properties in TKLocalizer class were changed to correspond with the similar functions in TKLocalizerOnFly class from LocOnFly unit; 
+
+Read more about this in the [LocUtils](/localizer-references/localizer-utils) section.

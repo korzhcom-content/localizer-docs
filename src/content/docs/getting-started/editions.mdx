@@ -4,3 +4,37 @@ slug: getting-started/editions
 sidebar:
   order: 2
 ---
+
+There are two main editions of Localizer: `Standard` and `Pro`.
+
+## Standard Edition
+
+The Standard edition of Localizer produces the resource DLLs – one for each language your program supports. Your application will load necessary DLL automatically in compliance with current system locale or you can load it manually using the functions in LocUtils unit.
+
+But a lot of developers prefer to give the end user an opportunity to switch the language of the application interface "on the fly", i.e. without restarting of the application. Just select the menu item – and get the application on another language. It sounds attractively, but has its own pitfalls. The point is that Delphi puts the forms (rather dfm files in the binary form) into the RCDATA section of the resources of the executable file. Naturally, this section (already translated) enters the resource DLLs. After such DLL loading it is necessary to refresh the property values of the components of the already created forms instances. It is possible, and Borland even gives the corresponding example – see the ReachEdit project in the Demos folder. The trouble, however, is that the components of the forms refreshed in such a way loose all the values of the properties set in run time. In other words, the forms return to the state they had in the design time. Theoretically, it is possible to restore the lost property values after such language switching, but in practice for more or less complex application the restoration is hard or even impossible.
+
+Besides that there is another problem in using resource DLLs: all resource DLLs provided with your program must be synchronized with the .EXE file. So you should distribute the new version of resource DLL any time when new version of the program becomes available.
+
+The special OnFly add-on was created for solving of the described problems. That add-on is included to Pro edition of Localizer. Physically OnFly add-on is a set of additional Delphi units, which can be linked to your program.
+In spite of resource DLLs Pro edition can use the language files that are created and translated via Language Manager.
+
+Practically nothing is changed from the point of view of the developer. S/he just doesn't create the resource DLLs (and, correspondingly, delivers the language files instead of them) and uses the functions from another unit (LocOnFly instead of LocUtils) in his/er application. At that the code that allows loading the proper language file and changing the values of the translated properties "on the fly" is embedded to the application.
+
+**The advantages of Localizer Standard:**
+
+- it uses the standard resource files format;
+- the possibility of automatically loading of the proper language according to the system locale;
+- there is no need (if you use the automatic loading) to add any strange code to your application – it may stay absolutely independent from the other's errors.
+
+## Pro Edition
+
+In addition Pro edition allows you not to care about the language resources updating when the new version of your program is released. Of course, it will be better to do it any time you release new version. But if you don't do it - that is not the problem: your users still can use old language files with new version of the program. In such case all new messages, captions, etc. will be shown in native language but the program itself will work well.
+
+So, which edition of Localizer is preferable? It depends on the needs and restrictions of the developer. We can prove only the advantages of each of them in comparison to another one.
+
+**The advantages of Localizer Pro:**
+
+- the size of the language files is essentially less than the DLL's;
+- it may correctly switch the application language "on the fly";
+- it is possible not to change the values of the properties that you change in the run time.
+- you don't need to care about synchronization of language resources any time when release a new version of the program.   

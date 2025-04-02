@@ -4,3 +4,22 @@ slug: getting-started/new-in-4x
 sidebar:
   order: 4
 ---
+
+## **Delphi 2009 support**
+
+Delphi 2009 contains the most essential changes in the Delphi product line since version 2.0. VCL became fully Unicode-enabled and string type does not correspond to the sequence of 1-byte characters as in previous versions.
+Version 4.0 of Localizer supports all these changes correctly. You do not need to anything special
+
+## **Improved performance**
+
+Now "Refresh language files" operation works about 100% faster in comparision with previous version of Localizer.
+
+## **More accurate processing of the projects which use both Unicode and non-Unicode strings**
+
+Previous versions of Localizer sometimes considered WideString properties as AnsiString because they took information from textual representation of the forms. If somebody would like to change this behavior he/she had to turn on "Unicode Project" option.
+Now Localizer scans the original, binary form representation. In addition to improved performance it allows to process different types of string values more correctly.
+
+## **New modules structure**
+
+We decided to redesign Localizer's classes and procedures to improve the performance and support new Delphi 2009. Now most of Localizer's units got Loc prefix, some modules were joined, others - divided to make classes structure more clear and scalable.
+In spite of such global code refactoring our current users will not need to change their programs - the most used Localizer classes and functions have the same names and signatures. 
