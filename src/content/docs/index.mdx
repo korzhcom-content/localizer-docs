@@ -1,0 +1,35 @@
+---
+title: Localizer
+description: Delphi wizards and components designed to facilitate the creation of truly multilingual applications and streamline the translation process!
+template: splash
+hero:
+  tagline: Delphi wizards and components designed to facilitate the creation of truly multilingual applications and streamline the translation process!
+  image:
+    file: ../../assets/localizer.svg
+  actions:
+    - text: Read Docs
+      link: /localizer/docs/introduction
+      icon: open-book
+      variant: primary
+    - text: Buy License
+      link: 'https://korzh.com/easyquery#licensing'
+      icon: 'seti:shell'
+      variant: secondary
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+    <Card title="ONE .EXE FILE" icon="seti:puppet">
+      Additional languages can be seamlessly added without the need for recompilation.
+    </Card>
+    <Card title="LANGUAGE MANAGER" icon="seti:odata">
+      A freely distributed utility enables you to separate the development process from the translation, enhancing workflow efficiency.
+    </Card>
+    <Card title="THIRD-PARTY SUPPORT" icon="seti:svg">
+      Localizer is compatible with all third-party components and packages, such as FastReports, DevExpress, TurboPower, ElPack, RX, and more.
+    </Card>
+    <Card title="PRESERVES YOUR ORIGINAL PROJECT" icon="pen">
+      Localizer does not alter your project in any way, such as adding additional components to forms or requiring function calls instead of string constants. You can compile your project without Localizer installed, and it will function seamlessly.
+    </Card>
+</CardGrid>
