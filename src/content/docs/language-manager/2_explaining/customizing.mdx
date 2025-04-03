@@ -4,3 +4,63 @@ slug: language-manager/2_explaining/customizing
 sidebar:
   order: 5
 ---
+
+You can customize some of the features of Language Manager by selecting "Edit | Options…" menu item. A dialog box appears with the following customizable features:
+
+
+## The "General" tab
+
+- [x]  `Try to translate automatically` – mark check box if you want Language Manager to search the same string as you have just translated each time you enter some new value into a cell. Language Manager tries to translate each of found cells unless the "Use replace toolbar" check box is marked.
+- [x]  `Use replace toolbar` – mark check box if you want the toolbar to appear for managing of the automatic translation. The check box is disabled if "Try to translate automatically" check box is not marked.
+- [x]  `Use Multiline Cell Edit Dialog` – mark check box if you want to edit multiline cells with the special dialog. Otherwise they are edited with drop-down memo control.
+- [x]  `Compare properties` by full name – sets the rule for sorting of properties in the fixed column. If checked, properties are sorted by full name (i.e. "Form1.Edit1.Text"), else – just by property name (i.e. "Text").
+- [x]  `Show Untranslatable items` – mark check box if you want untranslatable items to be shown in the grid. The untranslatable items are marked out with color.
+- [x]  `Move down automatically` – mark check box if you want to automatically jump to the next cell when you changed the current cell or its status (translated/untranslated, untranslatable etc.).
+- [x]  `Refresh project on close` – mark check box if you want all language files to be refreshed when the project is closed. It is useful if you change "Untranslatable" status of some items.
+- [x]  `RightToLeft for middle east` – the middle east languages will be displayed using RightToLeft alignment. Moreover, you will be able to input text as right-to-left.
+
+Grid Font – displays the grid font properties. Click **"Change..."** button to change the grid font.
+
+## The "Repository" tab
+
+`Repository path` – you can select what repository database (the set of two files: `<name>.lr` and `<name>.mem`) should be used.
+
+`Translate` – when the user choose "Repository | Translate language" menu item, this option defines which strings are to be translated:
+- [x]  `All strings` – all strings are to be translated independently of their "translated" status.
+- [x]  `Strings marked as untranslated` – program will try to translate the strings that are marked as untranslated.
+
+
+
+`Adding an existing string` – defines what happens when the user is trying to add to the Repository a translation of the string that already has some translations:
+- [x]  `Append to Repository` – the translation (if it is unique) is automatically appended to the Repository.
+- [x]  `Skip` – the new translation is ignored.
+- [x]  `Ask user` – the special dialog appears, where the user can choose to append, to ignore or to replace some old translation with a new one.
+
+
+
+- [x]  `Ask user translating the cell` – mark check box if you want the special dialog to appear when the string being translated has more than one translation in the Repository. Otherwise, the first found translation will be used.
+- [x]  `Add strings that are the same as native` – if marked, you will be able to add to the repository the translations that are the same as native string (i.e. the pair "Cancel" : "Cancel"). Otherwise such pairs will be omitted.
+- [x]  `Automatically translate the language being created` – mark check box if you want the "Repository | Translate language" action to be performed just after the new language is created.
+- [x]  `Automatically refresh repository after the cell has been translated` – mark check box if you want the program to automatically add the current cell to the Repository each time you have finished the cell editing.
+- [x]  `Smart Repository` – if marked, Language Manager will try to ignore "trailers" in the cells being translated via repository.
+- [x]  `Indicate availability` – mark check box if you want to see a special mark in the cell if this cell can be translated via repository.
+
+## The "Colors" tab
+
+`Active row color` – the background color of the current row. Click on colored box to change it.
+
+`Untranslatable items color` – the background color of the rows that are marked as untranslatable. Click on colored box to change it.
+
+`Verified items color` – the background color of the rows that are marked as verified. Click on colored box to change it.
+
+`Default colors` – click the button to set colors to their default values.
+
+## The "Libraries" tab
+
+`Library paths` – the list of paths to the folders that contain Libraries.
+
+## The "Language" tab
+
+`Select interface language` – the Language Manager interface can be translated. Select one of the available languages from the list. 
+
+

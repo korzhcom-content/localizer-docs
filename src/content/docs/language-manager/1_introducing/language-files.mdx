@@ -4,3 +4,21 @@ slug: language-manager/1_introducing/language-files
 sidebar:
   order: 1
 ---
+
+**Language file** is a file in a special format that contains strings to be translated (forms resources and string constants) for the concrete language. It has the .xxx.lng extension, where xxx is two- or three-character language abbreviation set by the user in the time of file creating.
+
+The language files contain the translations you made. For the OnFly edition they also are the final product - they are distributed to end user together with EXE.
+
+**Native language file** is a language file for application native language. It has the .ntv.lng extension. It is not the subject for translation, is renewed by Language Wizard (see Localizer menu in the Delphi IDE).
+
+Native language file also serves as project for Language Manager.
+
+The native language file is created by Language Wizard when you localize your Delphi project first time. All other language files you should create using Language Manager.
+
+Each language file contain three section:
+
+1. Forms - string and non-string (for example position and size of controls) items extracted from form controls used in your program.
+2. Units - resource strings placed in resourcestring section and string table resources from .rc or .res files included into the project;
+3. External - any other string items defined by user. This section can contain one or more groups of items each group contain one or more named string items. Developer can add new groups and items into External section and then access those items and their translations to other languages by several procedures described in LocOnFly API topic.
+
+Read External items topic to learn how to add new external item or group or modify/delete existing ones. 
