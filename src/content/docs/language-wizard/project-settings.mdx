@@ -4,3 +4,122 @@ slug: language-wizard/project-settings
 sidebar:
   order: 2
 ---
+
+This dialog is used for setting all localization/globalization parameters for one project.
+There is **"Localization enable"** check box at the top of the dialog. 
+If the project was not localized then this check box is the only available control. 
+After the checkbox is marked, the wizard starts to scan the project and creates [native language file](). 
+If the project was already localized and the developer unselect the checkbox then native language file will change its extension from .lng to .ln_ and native DLL will be deleted. 
+The other [language files]() and [resource DLLs]() are kept safe.
+
+## "General" page
+### "Localization version" 
+Field contains the native language file version. Actually this number is equal to count refreshing ("Refresh language files" item choosing).
+### "Language Folder" 
+Field allows to set the directory where language files will be stored. If drive letter (e.g. C:\) is not specified then the specified folder is considered as the sub-folder of current project directory.
+### "Base Language" 
+Group contains several filed where the developer can set the locale and name of the base language of the project.
+### "Edition" 
+Group allows to select the localization mode: Standard or OnFly. To learn more about the differences between editions see Localizer Editions topic.
+
+Selecting one of the editions you choose what unit will be added into the USES list of your .dpr file (LocUtils or LocOnFly) in case you will select Add Localizer API check box (see below).
+
+### "Remove automatically" 
+Group gives an opportunity to turn on or off the automatically removing of properties or resource strings constants during Refresh operation if they are unused. By default both options are turned on. You can turn them off if you need to delete the items manually (e.g. in case your project can include different number of resource strings depending on conditional compilation).
+
+### "Add Localizer API" 
+Tells Language Wizard add or not to add LocUtils or LocOnFly unit into .dpr file of your project.
+
+### "Rebuild project" 
+Tells Language Wizard to rebuild project totally on each "Refresh language files" operation;
+
+### "Create NTV file" 
+Options will be useful for those users who use some forms packing utilities (like Citadel). In such case it is necessary to distribute .NTV file together with your application, otherwise Localizer will not be able to generate resource DLLs at run-time (because of packed forms).
+
+### "Compress language files" 
+Specifies if the language files will be compressed or not. Compressed files usually have about 2-3 times smaller size than non-compressed ones but need additional time for decompression during loading (about 5%) and compression when they are saved (about 10-15%).
+
+### "Automatically make Refresh after build" 
+Turn this option on if you want to make Refresh operation after each project build.
+
+### "Process BiDiMode" 
+This options tells Localizer to automatically change the value of BiDiMode property for all localized compoenents if currently selected language has right-to-left reading order.
+
+## "Processing Rules" page
+In the "Processing Rules" page the developer can control which properties and forms should be included into the language file.
+
+### "Property rules" 
+Field keeps the list of rules that indicate which of the properties have to be included into language file. There are two main type of rules: inclusion and exclusion.
+Inclusion rules start from '+' or '*' symbol (without quotes) and mean that a property described by this rule will be included into native language file and thereby can be translated.
+Exclusion rules start from '-' symbols and are used to exclude some kind of properties from processing during Refresh operation.
+Both for inclusion and exclusion rules you can specify only property name, type name + property name or component name + property. Wild card symbol '*' can be used inside any rule to specify some template for component or property name. Here are some examples:
++.Caption - means that the language file will include all properties named Caption (independently on the class they are member of).
+-TSomeClass.Caption - says that property Caption of TSomeClass class will not be included into language file. In combination with first rule it will cause inclusion of all Caption properties in the project except Caption properties of all TSomeClass components;
+-MyForm.Hint - this rule excludes from processing the Hint property of the particular form named MyForm;
+-TDBGrid.Columns[*].Title.Caption - make Language Wizard to ignore Title.Caption property for all columns in TDBGrid components.
+
+There is special meaning of '*' symbol at the begining of the rule. Usuall Localizer does not include property values which does not contain any "alpha" symbol. For example if we have +.Caption rule in our settings but SomeComponent.Caption = '##.##.####' then it will not be included into native language file. To prevent this behaviour and include this value too you can use '*' symbol instead of '+' at the begining of the rule. It makes Localizer to process any property which satisfies this rule regardless it contains alpha symbols or not.
+Examples:
+*SomeComponent.Caption - will make to process all Caption properties with any value for SomeComponent object;
+*.Hint - will make to process all Hint properties with any value for all component in the project;
+
+
+### "Exclude Forms" 
+List contains the names of forms, which should be ignored during "Refresh" operation. Those forms will not be added into the native language file.
+
+### "Substitute Propeties" 
+List is intended to help Language Wizard in processing the properties which are not saved into .dfm because of the default values and so can be processed in usual way. The most know example of such behaviour is the DisplayLabel property of TField object. This property is not saved into .dfm file in case it is equal to FieldName property.
+So the developer should indicate for language wizard where to take the value for this property. The following rule:
+:FieldName-DisplayLabel
+means that all values of FieldName property will be saved into native language file as the value of DisplayLabel property if the DisplayLabel property does not have its own value. You can specify type name before ':' symbol to limit area of application of this rule by one particular type (in example listed above the rule will be applied for any type). Here is the example:
+T*Field:FieldName-DisplayLabel
+This rule limit substitution only for types that fit the template T*Field. The templates with wildcards (*) can be used both for type or for property identification. Here is another example of rule:
+TDBGrid.Columns[*]:FieldName-Title.Caption
+You can also define "exclude types" in substitute rules. Exclude types are listed after main type name separated by back slash "\". Example:
+T*Field\TPPField,TWWField:FieldName-DisplayName;
+This rule means that we should process all types which fit the template T*Field except TPPField and TWWField.
+
+## "Resource Strings" page
+This page contains the parameters of "Extract hardcoded strings" operation
+
+### "Resource strings unit name" 
+Field contains the name of unit where all found and selected string constants will be placed (in the resourcestring section).
+
+In the "Resource string name prefix" field you can specify the prefix for constant names which are automatically generated during "Extract hardcoded strings" operation. Default value is 'S' that means that, for example, string 'Hello world' will be named as SHelloWorld.
+
+Turning "Merge duplicated resource strings" option on makes wizard to give the same constant name for identical strings during "Extract hardcoded strings" operation.
+
+### "Exclude strings" 
+Section keeps rules which prevent processing of some string constants. For example, the rule
+FieldByName(
+means that strings with prior "FieldByName(" tokens will not be processed (since usually we do not want to translate field names).
+
+### "Exclude units" 
+Field contains the list of units, which are ignored during the "Refresh" operation. All resource strings from those units will not be included into the native language file.
+
+### "Process constants from DRC file" selector.
+This option allows to select which part of constant from .drc file will be recognized as unit name.
+The problem occurs because of strange format Delphi linker uses for resource strings placed in .drc file. It stores them as UnitName_ConstantName so it is difficult to extract UnitName and ConstantName separately if at least one of them contains _ symbol.
+Localizer solves this problem by comparing any possible variant of unit name with all unit names which belong to the project but it does not work for the units which do not belong to the project (are not listed in the project manager).
+To provide a workaround for this problem we have added this option. If you select "From begining" then Localizer will recognize first part of the constant (before first _ symbol) as UnitName and the rest - as ConstantName. Otherwise (for "From end" option) it will use the last _ symbol as separator. Everything before it will be used as UnitName and after - as ConstantName.
+
+:::note
+Note:
+To prevent all possible problems we suggest not to use _ symbol for unit names and (especially) for resource string constant names!
+:::
+
+## "Additional units" page
+### "File Name" 
+Field contains the list of additional units for "Extract hardcoded strings" operation;
+Pressing "Add" button you can add additional source file to the list.
+Pressing "Delete" button you can delete file from the list.
+
+### "Other options" page
+This page contains "Link languages into EXE" list. This feature works only in Pro edition of Localizer (since in Standard edition languages are distributed as resource DLLs).
+To link several (or all) available languages into EXE - first check main check box under list ("Link languages into EXE") to turn this feature on and then mark the check boxes near needed languages in the list box.
+If the options is turned on then Native language will be linked into result .EXE in any case (again for Pro edition only).
+
+
+Pressing Defaults button at the bottom of the dialog you can restore default rules for "Property rules" and "Exclude strings" lists. 
+
+

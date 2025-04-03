@@ -1,6 +1,28 @@
 ---
-title: Language Wizard Overview
+title: Overview
 slug: language-wizard/overview
 sidebar:
   order: 1
 ---
+
+Language Wizard provides the ability to install/uninstall multilanguage support to/from your existing Delphi project. It also provides the methods to control all options of localization/globalization process. Main parts of the wizard are:
+
+## 1. Project Settings dialog.
+It provides the control for main localization options of the project: which Localizer edition is used, the name and locale of the project's base language, should language files be compressed or not, etc. Using this dialog the developer can specify which properties and resourcestrings should be translated and what forms and units should be processed (through );
+
+Read the [Project Settings](language-wizard/project-settings) section for more details.
+
+## 2. Refresh Language Files operation
+This operation should be executed every time the project was changed (new form or new component was added, source code changed, etc.) to store all changes in native language file.
+
+Read the [Refresh Language Files](language-wizard/refresh-language-files) section for more details.
+
+## 3. Extract hardcoded strings operation
+These operations are intended to help the developer to move hard-coded string constants into resourcestring section or .rc file where they will be available for translation as part of program resources.
+
+Read the [Extract Hardcoded Strings](language-wizard/extract-hardcoded-strings) section for more details.
+
+## 4. Switch native language operation
+This operation changes the language of all controls on the forms (if they are already translated to chosen language) and all resourcestring constants in .pas files. It is very useful for adjustment size and position of the components for some language (not native). The developer switches the language, changes sizes and positions of the components if necessary (for example if translated caption of some control takes more room on the form then in native language), saves the changes into native language file (using Refresh operation) and switches the language back. After such steps all changes are stored in the corresponding language file. 
+
+Read the [Switch Native Language](language-wizard/switch-native-language) section for more details.

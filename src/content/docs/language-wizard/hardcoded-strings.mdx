@@ -4,3 +4,57 @@ slug: language-wizard/hardcoded-strings
 sidebar:
   order: 4
 ---
+
+Each Delphi application usually contains many "hardcoded" string constants in its code. To localize these strings you should place them into resourcestring section. Localizer provides special wizard to implement this task. It can be called through Localizer | "Extract hardcoded strings..." menu item.
+As the result of its work all selected string constants in project units will be changed to corresponded constants from resourcestring section. All extracted constants are placed into special separate unit (PrjConst.pas by default), and this unit is automatically added into uses section of unit where the replacement was performed.
+
+Example:
+
+Before processing
+
+```pascal
+unit SomeUnit;
+interface
+uses
+SysUtils, Windows, ...;
+
+. . . . . . . . . .  
+//somewhere in implementation section
+ShowMessage('Hello World');
+. . . . . . . . . .
+```
+
+After processing
+
+```pascal
+unit SomeUnit;
+interface
+uses
+SysUtils, Windows, ..., PrjConst;
+
+. . . . . . . . . .  
+//somewhere in implementation section
+ShowMessage(SHelloWorld);
+. . . . . . . . . .
+---------------------------------------- 
+unit PrjConst;
+. . . . . . .  
+resourcestring
+. . . . . . . . .  
+SHelloWorld = 'Hello world';
+. . . . . . . . .
+```
+
+In the "Extract hardcoded strings" dialog user can select the project units which will be processed and the name of unit where the processed string constants will be placed (into resourcestring section).
+After pressing the "Scan" button wizard will show "Select string constants" dialog for each chosen unit. The dialog contains the list of all string constants (excluding those ones which are suited for "Exclude Strings" rules listed in "Project Settings" dialog). The user can select necessary constants and they will be placed into PrjConts.pas unit (or into any other unit with the name defined in the "Resource Strings Wizard" dialog). "Select string constants" dialog will not appear for the units which does not contain string constants.
+To add the new resource strings into the native language files after processing all selected units it is necessary to run "Refresh language files" utility.
+
+Working with hardcoded strings in C++ Builder
+Since version 3.0 Localizer has an ability to extract string constants from .cpp files and place them into resourcestring section of some separate .pas file or into .rc file.
+In the first case string constants in .cpp units will be replaced to the following identifier: UnitName_ConstantName, where UnitName - name of generated Pascal unit, ConstantName - name of the constant in resourcestring section of that unit. The developer should include corresponding header file (UnitName.hpp) manually.
+In case of using .rc file, all selected string constants are replaced to LoadStr(ConstantName) function call. Here ConstantName is an identifier which is declared in .rc file and represents the resource ID of the constant.
+
+In both cases the result file (.pas or .rc) must be included into C++ Builder project (using Project Manager dialog).
+
+In the "Resource Strings Wizard" dialog user can select the type of destination file (Pascal unit or .rc file), the project units which will be processed and the name of Pascal unit or .rc file where the processed string constants will be placed.
+After pressing the "Scan" button wizard will show "Select string constants" dialog for each chosen unit. The dialog contains the list of all string constants (excluding those ones which are suited for "Exclude Strings" rules listed in "Project Settings" dialog). The user can select necessary constants and they will be placed into destination file as it was described above. "Select string constants" dialog will not appear for the units which does not contain string constants. 

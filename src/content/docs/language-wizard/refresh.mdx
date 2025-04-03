@@ -2,3 +2,14 @@
 title: Refresh Language Files
 slug: language-wizard/refresh
 ---
+
+This menu item is used for synchronizing of native language file with last project changes. This operation should be performed each time before the new version of application is released. Otherwise, the localized versions of your application will not contain your changes (any changes were made on forms or any changes with string constants) because of old DLLs using.
+
+During this operation Localizer performs the following main steps:
+
+- adds LocUtils or LocOnFly units into uses clause of the .dpr file if a corresponding option (see [Project Settings](/language-wizard/project-settings) dialog topic) is turned on;
+- adds all necessary compiler directives into .dpr file;
+- builds your project;
+- scans the result .EXE or .DLL file to see if there are any changes. All changes (new or changed components, new property values, etc.) are saved into [native language file]();
+- scans .drc file (special map file, which contains all resource strings from your project) to see if there are changes in resourcestring sections of your project. All changes (if any) are saved into native language file too;
+- runs Language Manager in hidden mode to synchronize all other language files and resource DLLs with native language file.   

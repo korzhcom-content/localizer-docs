@@ -4,3 +4,11 @@ slug: language-wizard/switch
 sidebar:
   order: 3
 ---
+
+This operation changes the native language of all controls on the forms and resource strings of your project at design time.
+
+Basically you can use this operation to see how your forms will look translated and to change sizes and positions of controls if translated texts do not fit into their current places. To save the changes in the language file - just call ["Refresh Language Files"](/language-wizard/refresh) operation.
+
+It can be used also to make the translation of your application at design time (however Language Manager - is more suitable tool for this purpose). When the translation is finished - refresh language file and switch back to the base language of your project.
+
+During "Switch native language" operation Language Wizard does not translate forms and resource strings which do not belong to your project (e.g. string constants from consts.pas unit or forms which are the parts of some third-party packages). That's why this operation is not right way to make fully localized single .EXE file, however it can be used for such purposes (in view of limitations listed above). 
