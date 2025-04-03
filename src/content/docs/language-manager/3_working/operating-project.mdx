@@ -4,3 +4,31 @@ slug: language-manager/3_working/operating-project
 sidebar:
   order: 1
 ---
+
+Language Manager uses native language files as projects.
+
+The text file with `.leo` extension is used to save/restore project configuration. 
+It is created when you open the project first time and is updated every time you close the project.
+
+
+### Open project
+
+To open project select `File | Open Project…` menu item (the open dialog has file name extension filter set to .ntv.lng).
+If there is no .leo file in the project folder, then the language files opening dialog should appear. 
+Otherwise, Language Manager will automatically open language files that were open when you closed the project last time.
+
+When the project is opened you can open only language files with the same file name located in the same folder.
+
+Only one project can be opened in a time. When you open some project, the currently opened project is closed automatically.
+
+You may also use some [command line parameters](/language-manager/3_working/command-line) to open project.
+
+
+### Reopen project
+
+The six last opened projects are listed as `File | Reopen` menu subitems. You may select one of them to open listed project.
+
+
+### Close project
+
+To close currently opened project select `File | Close project` menu item. 
