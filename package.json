@@ -3,8 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev --open",
-    "start": "astro dev",
+    "dev": "astro dev",
+    "start": "astro dev --open",
     "build": "node tools/add-indexes.js ./src/content/docs && astro build",
     "preview": "astro preview",
     "astro": "astro"
