@@ -4,3 +4,135 @@ slug: localizer-references/loc-on-fly/tkloconfly-class
 sidebar:
   order: 1
 ---
+
+Unit `LocOnFly.pas` defines a global object: `LocalizerOnFly` of `TKLocOnFly class`. You can use this object in any unit which includes `LocOnFly` unit into the uses list.
+
+Below you will find the description of `TKLocOnFly` methods, properties and events:
+
+## Methods:
+
+### procedure Init(ALangDir : string = '');
+Initializes LocalizerOnFly object and scans ALangDir folder for language files and creates internal list of languages (available through LangList property). ALangDir can be either relative (to .EXE directory) or absolute path. Empty string means the current .EXE folder.
+
+### procedure InitReg(const ARegKey : string = ''; ALangDir : string = '');  
+Initializes Localizer object and read the information about current language from the Registry. ARegKey parameter specifies the key path in the Registry. Information is saved under HKEY_CURRENT_USER key. Call this function before any form is created. You can use this method at the beginning of the program instead of Init method. You can pass empty string in the parameter. In such case the default Registry key (Software\Borland\Locales) will be used.
+ALangDir parameter has the same meaning as in Init method.
+In Delphi 4 and higher you can also use overloaded procedure InitReg without parameter. It works the same way as InitReg(`', `');
+
+### procedure PopulateMenu(AMenuItem : TMenuItem; AGroupIndex : integer; UseNative : boolean);  
+Adds all languages listed in LangList property as subitems into AMenuItem. All added items have GroupIndex = AGroupIndex and RadioItem = True. The name of language in English is used as menu item's Caption. UseNative parameter indicates if native language will be added into the list or not.
+
+### procedure SwitchTo(Locale : LCID);  
+Switches the current language of application by locale. This method is called automatically from default handler of OnClick event for all menu items added by PopulateMenu method.
+Loads native language fie if passed locale is equal to native locale.
+
+### procedure SwitchToExt(const Ext : string);  
+Switches the current language of application by two or three letter abbreviation of locale. In all other aspects has the same behaviour as SwitchTo method.
+Example:
++ `LocalizerOnFly.SwitchToExt(`ENG')` – switches to English language;
++ `LocalizerOnFly.SwitchToExt(`DEU')` – to German
+
+### procedure SwitchToFile(const FileName : string);  
+Switches the current language of application to the one stored in the language file FileName.
+
+### function RSValueByName(Locale : LANGID; const ConstantName : string) : WideString;
+returns resource string value translated to language specified by Locale by its constant name
+
+### function RSValueByID(Locale: LANGID; ConstID: word): WideString;
+returns resource string value translated to language specified by Locale by its constant ID
+
+### function GetTraslatedRS(const ConstantName : string) : string;
+Returns resource string value translated to current locale by constant name.
+
+### function GetTraslatedRSByID(ConstID : word) : string;
+Returns resource string value translated to current locale by constant ID.
+
+### function RSValue(Locale: LANGID; ResStr : PString): WideString;
+Returns resource string value translated to language specified by Locale by resource string pointer. Example:
+`ShowMessage(LocalizerOnFly.RSValue(LANG_UKRAINIAN, $SHelloWorld));`
+
+### function PropValueByName(Locale: LANGID; const FormName, PropertyName: string): WideString;
+returns property value translated to language specified by Locale, by form name and component+property name.
+
+### function GetTranslatedProperty(const FormName, PropertyName : string) : string;
+Returns property value translated to current locale by form name and component+property name.
+
+### function GetWordTranslation(const NativeWord : WideString; ToLocale : LANGID) : WideString;
+Returns a translation of the word. 
+This function searches for the first inclusion of the word in native language file and returns its translation to the language specified by ToLocale parameter or the original word if it could not be found in native file or the corresponding language file does not exist.
+
+### function XSValueByName(Locale : LANGID; const XSName : string) : WideString;
+Returns external string value by its name for specified locale. Provides the same functionality for external items as RSValueByName function does for resource strings.
+
+### function GetTranslatedXS(const XSName: string) : WideString;
+Returns external string translation by its name. Provides the same functionality for external items as GetTraslatedRS function does for resource strings.
+
+### function XSByValue(const NativeWord: WideString; ToLocale: LANGID): WideString;
+Returns external string value for specified locale by its value in native language.
+
+### function GetTranslatedXSByValue(const Value : WideString) : WideString;
+Returns external string translation by its native language value.
+
+### procedure ProcessContainer(Container: TComponent);
+This method translates all components of the Container (form or data module) to the current language. Usually it is used together with SoftMode property to translate application without creating and using resource DLLs (for example for Web applications) but it also can be used in usual mode just to translate some component and all its sub-components instantly at run-time.
+
+
+## Properties:
+
+### property AppFileName: string;
+Allows to get or set full path name of the application. By default is equal to Application.ExeName. Can be assigned to another value (e.g. path to the main application) for DLL/package localization;
+
+### property AppInstance: HINST;
+Allows to get or set application instance handle. By default is set to the value of HInstance global variable. Can be assigned to another value (e.g. instance of the main application) for DLL/package localization;
+
+### TErrorReaction = (erException, erMessage, erIgnore);
+### property ErrorReaction: TErrorReaction;
+This property can be used to control processing of the errors which can occur inside TLocOnFly methods. There are three possible values: erException means that exception will be generated, erMessage - the message box with error description will be shown, erIgnore - all errors will be ignored.
+The default value is erMessage.
+Set ErrorReaction property to erIgnore at the beginning of your program if you want that your application works normally even if some Localizer files do not exists or some permanent error occurs inside TLocOnFly methods.
+
+### property CurrentLocale : LCID;
+Returns the locale of the current language. Read-only.
+
+### property NativeLocale : LCID;
+Returns the locale of the native language of application. Read-only.
+
+### property LangList : TLFInfoList;
+Contains the list of items that describe all language files in the LangDir folder. The total number of language files can be accessed through LangList.Count property. Each item of the list is the object of TLFInfo class which you can get by its index: `LangList[Index]`.
+Here is the declaration of TLFInfo public properties:
++ `property FileName : string;` - returns the name of language file
++ `property FullFileName : string;` - returns full path to the language file;
++ `property Locale : LCID;` - returns the locale of the language;
++ `property EnglishName : string;` - the name of the language stored in the current file in English.
++ `property LocalizedName : string;` - the localized name of the language stored in the current file.
+
+### property Initialized : boolean;
+Read-only. Returns 'True' if LocalizerOnFly global object was initialized using Init or InitReg method. Otherwise - 'False'.
+
+### property LangDir : string;
+Contains the path to the folder, witch contains language files.
+
+### property DLLDir : string;
+Contains the path to the folder, witch contains resource DLL files.
+
+### property TranslatePackages : boolean;
+If it True, Localizer automatically will try to process and all run-time packages which are used by the program. If program A (localized by Localizer) uses package B then at replacement of the current language in program Localizer will try to find not only file A.XXX.lng, but also file B.XXX.lng too, and will translate both the program and the package.
+
+### property DeleteUnusedLDLL : boolean;
+If 'True' then unused resource DLL will be deleted after the language have been switched.
+
+### property SoftMode : boolean;
+If 'True' Localizer works in soft mode which means that no DLLs will be created or used. You will need to use ProcessContainer method for each form or data module to translate it to current language (better in OnFormCreate event handler). You will also need to use LocStr() or LocWStr() global functions to get translated values of resource strings used in the program.
+
+## Events:
+
+### TMenuItemAddEvent = procedure(AInfo : TLFInfo; AMenuItem : TMenuItem; var Cancel : boolean) of object;
+### property  OnMenuItemAdd : TMenuItemAddEvent;
+Event that is arised during PopulateMenu method executing when next menu item is to be added.
+You can suppress its adding by setting Cancel = True.
+AInfo parameter describes the properties of the language which being added now (see the description of LangList property for more information about TLFInfo class).
+
+### TLangSwitchEvent = procedure(Sender : TObject; AInfo : TLFInfo) of object;
+### property OnLangSwitch : TLangSwitchEvent;
+Event that is arised when app language has been just switched.
+AInfo parameter describes the properties of newly loaded language (see the description of LangList property for more information about TLFInfo class). 

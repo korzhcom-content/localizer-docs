@@ -4,3 +4,22 @@ slug: localizer-references/loc-on-fly/procedures
 sidebar:
   order: 2
 ---
+
+LocOnFly unit contains several global procedures and functions which can be used in your application.
+
+## Functions
+
+### LocStr()
+`function LocStr(StrName : PString) : string;` returns a translation of resource string to currently selected language (see LocalizerOnFly.CurrentLocale). StrName is a pointer to resource string. Example:
+ShowMessage(LocStr(@SSomeString));
+This function usually used in "soft" mode (LocalizerOnFly.SoftMode = True).
+
+### LocWStr()
+`function LocWStr(StrName : PString) : WideString;` the same as LocStr function but returns WideString value as result.
+
+### GetStr()
+`function GetStr(StrName : PString) : string;` returns correctly converted resource string value corresponding to current locale (LocalizerOnFly.CurrentLocale). It is necessary if you plan to use your application with some translation to Locale1 on computer with system Locale2. Example: you plan to use your application with Ukrainian translation on the computer with French system locale. In such case Delphi uses system locale to convert resource strings (which are WideString) to AnsiString. In the described situation such convertion will be wrong since Delphi will use French locale to convert Ukrainian string. To avoid this you can use GetStr function. It will use current locale (LocalizerOnFly.CurrentLocale) for the convertion and thus will return the right value of resource string. Example: `ShowMessage(GetStr(@SSomeString));`
+
+### GetWStr()
+`function GetWStr(StrName : PString) : WideString;` the same as GetStr but returns WideString instead of AnsiString. Use it if you need to get Unicode value of some resource string (since simple accessing resource string constant returns an AnsiString).
+In fact GetStr function uses GetWStr to get the resource string value and then convert it to correct AnsiString using current locale specified by LocalizerOnFly object. 

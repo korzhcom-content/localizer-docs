@@ -1,4 +1,111 @@
 ---
-title: Localizer Utils
+title: LocUtils API
 slug: localizer-references/localizer-utils
+sidebar:
+  order: 2
 ---
+
+If you need to use DLL with extension that doesn't correspond to system locale you need to add resource loading function call to your application. Unit LocUtils.pas that comes with Localizer installation contains several procedures to simplify this process. It defines a global object: "Localizer" of TKLocUtils class. You can use this object in any unit of your project, where LocUtils is existed in the uses clause.
+
+Below you will find the description of methods, properties and events of TKLocUtils class:
+
+## Methods:
+
+### Init()
+`function Init : boolean;` Initializes Localizer object. Checks for the possibly automatically loaded DLL version.
+In the case the DLL version is incorrect the message appears and original EXE resources are loaded. If SafeWork=True (see below) then Init function returns True on successful initialization and False - otherwise.
+
+### InitReg()   
+`function InitReg(const RegKey : string) : boolean;` Initializes Localizer object. RegKey parameter says where in the Registry the information about current resource DLL will be saved. Information is saved under HKEY_CURRENT_USER key. Call this function before any form is created. Function tries to load the DLL mentioned in registry. In the case the DLL version is incorrect the exception is raised. Resource DLLs will not be loaded during initialization and menu items click if RegKey = ''. This method is used together with PopulateMenu procedure.
+If SafeWork=True then InitReg function returns True on successful initialization and False - otherwise.
+
+### BackToExe();
+`procedure BackToExe();` Loads native resources of the of the application. Used internally.
+
+### BackToModuleRes();
+`procedure BackToModuleRes(Module : HINST);` Loads native resources of the module. Used in DLL which should be localized. For more information see "DLL and Package localization" topic.
+
+### DllSwitchToFile();  
+`procedure DllSwitchToFile(DLLFileName : PChar; var dllStruct : TDLLInfoStruct);` Used in DLL which should be localized. For more information see "DLL and Package localization" topic.
+
+### GetCurrentInfo();
+`function GetCurrentInfo : TDLLInfoItem;` Returns TDLLInfoItem structure filled with information by currently used resource module.
+
+### procedure GetDLLInfo();
+`GetDLLInfo(Instance : HINST; IsDll : boolean; diItem : TDLLInfoItem);` Can be used for getting localization information about resource DLL or EXE file. Instance - handle of the DLL returned by LoadLibrary method. IsDLL parameter specify the type of file (True - DLL or False - EXE). All information as TDLLInfoItem class object in third paremeter.
+
+### GetDLLsInfo();
+`function GetDLLsInfo(ADllList : TDllInfoList): boolean;` Scans DLLsPath folder for resource DLLs and fills ADllList with appropriate TDLLInfoItem items. Native DLL information is not included into the result list.
+EXE-file information is included in any case (item's FileName property = '' to avoid recurring translation to native language).
+Returns False if there was an error.
+
+### GetFileExt()
+`function GetFileExt(Locale: LCID) : string;` Returns three-character extension that corresponds to specified Locale ID
+For example, 'UKR' for Ukrainian locale.
+
+### LoadResource();   
+`procedure LoadResource(const FileName : string);` Loads and makes the current resource DLL with the name indicated in FileName parameter. This function must be called before creating the first form. The best way is to place it in the code first line in .dpr file.
+
+### PopulateMenu();   
+`procedure PopulateMenu(AMenuItem : TMenuItem; AGroupIndex : integer; AActionType : TLocAction);` Scans DLLsPath folder (project folder by default) for resource DLLs and adds corresponding subitems to AMenuItem. All added items have GroupIndex = AGroupIndex and RadioItem = True. TDLLInfoItem.EnglishName is used as menu item's Caption. You can change some parameters and behavior in OnTranslate and OnMenuItemAdd event handlers.
+Action parameter defines the translation method (see ActionType property for details).
+
+### PreloadResModule()
+`function PreloadResModule(Module : HINST; const FileName : string) : HINST;` Load the resource DLL with the name passed in second paramenter. First parameter - the handle of the module which contains native resources (current EXE in most cases) to check the version of loaded DLL.
+
+### SetResourceHInstance()
+`function SetResourceHInstance(Module: HINST; NewInstance: HINST): HINST;` Switch the handle of resource part for all currently loaded modules of application to the one passed in paremeter.
+
+### SwitchToFile();  
+`procedure SwitchToFile(const FileName : string);` Switches the current language of application to the one stored in the language file FileName.
+This method is called automatically from default handler of OnClick event for all menu items added by PopulateMenu method.
+
+### SwitchToExt();  
+`procedure SwitchToExt(const Ext : string);` The same as previous but language abbreviation is used instead of language file name. Example:
++ `LocUtils.SwitchToExt(`ENG')` – switches to English language;
++ `LocUtils.SwitchToExt(`DEU')` – to German;
+
+### SwitchTo();  
+`procedure SwitchTo(Locale : LCID);` Switches the current language of application by locale. In (all) other respects has the same behaviour as SwitchToFile method. Loads native language file if passed locale is equal to native locale.
+
+## Properties:
+
+### TLocAction = (laNow, laDefer);
+### property ActionType : TLocAction;
+The translation mode. There are two possible modes of translation: immediate translation (laNow) and deferred translation (laDefer - the default method). First method means that Localizer will try to apply resource DLL "on the fly" - it will reinitialize all opened forms so translated strings will appear immediately. However this method may cause some errors if the behavior of some form is changed after its first loading. This method does not work in Delphi 3.
+That's why we recommend to use the default method. Using deferred translation TKLocUtils class does not reinitialize forms immediately. It just saves path to the selected resource DLL into the registry key (indicated in RegKey parameter of InitReg method). User should restart the application and selected resource DLL will be loaded automatically in the InitReg method during next launch of the program.
+In case you need immediate translation we recommend to use Pro (OnFly) edition of Localizer. See (Localizer Editions topic for details).
+
+### property AppFileName : string;
+Returns application file name. Read only.
+
+### property ExeCmdLine : string;
+Property to pass a command line to the exe when restarting.
+
+### property DLLsPath : string;
+Set this property before PopulateMenu if your resource DLLs are not located in your application (EXE-file) folder
+
+### property NativeLocale : LANGID;
+Returns Native Locale. Read only.
+
+### property SafeWork : boolean;
+If SafeWork = True, Localizer does not generate exceptions at occurrence of mistakes in work (for example, specified catalogue does not exist, or an incorrect format of a language file) but only shows respective text messages. In the beginning of work SafeWork = True. The programmer has an opportunity to replace it at any moment (it is desirable to do this somewhere at start of the program in .dpr file, even before call Localizer.Init).
+
+## Events:
+
+### TLULangSwitchEvent
+`procedure(Sender : TMenuItem; AInfo : TDLLInfoItem; var Restart : boolean) of object;`
+
+### property OnLangSwitch : TLULangSwitchEvent;
+Event that is arised when menu item (added by PopulateMenu) is clicked and translation action already done.
+If Localizer object was initialized with maDefer action (default) then you can automatically restart your application setting Restart = True. Sure that you have saved all unsaved data before.
+
+### property OnMenuItemAdd : TLUMenuItemAddEvent;
+Event that is arised during PopulateMenu executing when next menu item is to be added.
+You can suppress its adding by setting Cancel = True.
+
+To learn more see LocUtils.pas unit (it comes with full source code) and "Editor" sample project which is included into Localizer installation.
+
+The most simple way to apply this class to your application is to place Localizer.InitReg call at the beginning of your program (in the first line of code in .dpr file) and then call PopulateMenu method in the OnCreate or OnShow handler of the main form. 
+
+

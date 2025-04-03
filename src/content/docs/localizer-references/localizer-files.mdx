@@ -1,4 +1,15 @@
 ---
 title: Localizer Files
 slug: localizer-references/localizer-files
+sidebar:
+  order: 1
 ---
+
+Localizer creates several auxiliary files in the project folder while working.
+
+- `<projectname>.xxx.lng` – language file. Where xxx - three-character language abbreviation. The special language file with .ntv.lng extension is the native language file.
+- `<projectname>.xxx` (where xxx - three-character language abbreviation) - resource DLL. It contains all application's resources translated to corresponded language (e.g..RUS - Russian, .DEU - German).
+- `<projectname>.plo` – INI-like file which contains all Language Wizard's settings for the current project.
+- `<projectname>.leo` - INI-like file which contains all Language Wizard's settings for the current project.
+- `<projectname>.klr` (or `<projectname_KLR.res` for C++ Builder) – resource file, which should be linked into your result EXE (or DLL) file. Contains special RCDATA section that is used by Localizer API functions. The special compiler directive is added automatically for Delphi project but should be added manually in case of using C++Builder (USERES clause).
+- `<projectname>_KLL.res` - resource file which contains all language files linked to your application (see "Project Settings dialog" topic, "Other Options" section for more information).   
