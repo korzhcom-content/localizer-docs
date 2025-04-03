@@ -4,3 +4,63 @@ slug: getting-started/dll-localization
 sidebar:
   order: 8
 ---
+
+Starting from version 3.0 Localizer allows you to localize runtime packages and DLLs. OnFly edition allows you to switch packages/DLLs language together with application language.
+To get packages/DLLs localized you need to open them in the IDE and localize as regular Delphi projects using Localizer menu.
+
+Below we describe package/DLLs localization for all possible cases: which edition is used (Standard or Pro) and what exactly is localized (package or DLL):
+
+## Localizer Standard
+The Standard edition gives you a limited control on the runtime packages/DLLs. It uses Borland's standard mechanism of loading of applications, packages and DLLs using the extension mentioned in the registry (see "Using resource DLLs" topic in Delphi help).
+So, you need to use Localizer.InitReg('') as initialization routine. In this case the application will try to load ALL runtime packages with the same locale - it will search for proper resource DLLs (by file
+extension) and load resources from them.
+
+## Localizer OnFly
+Set TLocalizerOnFly.TranslatePackages = 'True' to translate packages on the fly. Localizer enumerates all currently loaded packages and searches for available language files for them. If such language files are found, they are loaded automatically by your main app.
+If you load your packages/DLLs manually (using, say, LoadPackage/LoadLibrary functions), you need to translate loaded package/DLL manually. We added a special method TLocalizerOnFly.TranslateLoadedModule (LocOnFly unit) which should be called just after loading of such package/DLL.
+
+## Packages  
+Borland supports a list of packages loaded by the application (`System.LibModuleList` variable). 
+Through this list application can manage the resource module instances for each loaded package. 
+So, you don't need to add any Localizer's code to the package (except the `{$R 'PackageName.KLR'}` directive that is added automatically)
+
+## DLLs  
+The list of DLLs is not supported, so you need to add some extra code to the DLL to get it localized with Localizer. Do the following:
+
+1. Add LocUtils unit to uses clause of DLL's dpr file.
+2. Export the following functions:
+
+```pascal
+procedure SwitchToFile(DLLFileName : PChar; var dllStruct : TDLLInfoStruct); stdcall;  
+begin  
+Localizer.DllSwitchToFile(DllFileName, dllStruct);  
+end;
+
+procedure BackToModuleRes(Module : HINST); stdcall;  
+begin  
+Localizer.BackToModuleRes(Module);  
+end;  
+. . . . .
+exports
+SwitchToFile,
+BackToModuleRes;
+```
+
+Or C++ Builder variant:
+
+```cpp title=SomeUnit.h
+extern "C" void __stdcall SwitchToFile( char* DLLFileName, TDLLInfoStruct & dllStruct );
+extern "C" void __stdcall BackToModuleRes( HINST Module);
+```
+
+```cpp title=SomeUnit.cpp
+void __export __stdcall SwitchToFile( char* DLLFileName, TDLLInfoStruct & dllStruct )
+{
+Localizer->DllSwitchToFile( DLLFileName, dllStruct);
+}
+
+void __export __stdcall BackToModuleRes( HINST Module)
+{
+Localizer->BackToModuleRes(Module);
+} 
+```

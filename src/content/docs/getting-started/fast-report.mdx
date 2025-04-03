@@ -1,0 +1,49 @@
+---
+title: Fast Report Localization
+slug: getting-started/fast-report
+sidebar:
+  order: 9
+---
+
+Since version 4.5, Localizer can process report components and files created by `FastReport` library.
+
+Here is a step-by-step description of how you can translate your reports using `Localizer`:
+
+1. Turn on `FastReport` processing in `Localizer` | `Project Settings` dialog (see "Other Options" tab).
+
+2. You can also turn on "Process `FastReport` files" option and indicate the base directory where Localizer should look for FastReport's files.
+
+3. Next time you do `Refresh language files` operation all report components (`TfrxReport`) and all report files (.fr3) will be added into your native language file. All those objects are placed into `External` section of a language file. Each report component or file will be represented by separate external group. The components will be named as `FRFORM:FormName:ComponentName` and the report files will look like `FRFILE:ReportFileName`. 
+Here `ReportFileName` can include the path to report file starting from the base directory you indicated in the Project Settings dialog.
+
+4. Now you can translate all those external items using Language Manager utility as usual.
+
+5. Unfortunately, Localizer can't process report components and files the same way as all other components in your project because of their non-standard structure. So to finish the process of localization you should add `LocFRProcs` unit name into the uses section of your unit(s) and call one of the special functions to translate report's content into the currently selected language. These functions are:
+
++ `procedure TranslateReportObj(ReportObj : TComponent);`
++ `procedure TranslateReportFile(ReportObj : TComponent; const RptFileName : string);`
+
+First function will translate some `TfrxComponent` placed on your form. 
+The second one will do the same, but with some report file previously loaded into the report object passed in the first parameter.
+
+Here are the examples of using these functions:
+
+```pascal
+procedure TForm1.btShowReportObjClick(Sender: TObject);
+begin
+//here we translate some TfrxReport component which holds the report inside.
+TranslateReportObj(frxReport1);
+frxReport1.ShowReport;
+end;
+
+procedure TForm1.btShowReportFileClick(Sender: TObject);
+begin
+//now we do the translation of some report file.
+frxReport2.LoadFromFile('test2.fr3');
+TranslateReportFile(frxReport2, 'test2.fr3');
+frxReport2.ShowReport;
+end;
+```
+
+To see these functions in work you can try to open and build FRPrintArray project placed into **MyDocuments\KorzhLocalizer\Samples** folder. 
+

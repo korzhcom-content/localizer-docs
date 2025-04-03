@@ -4,3 +4,23 @@ slug: getting-started/distribution
 sidebar:
   order: 7
 ---
+
+To be translated your application needs resource DLLs (Standard edition) or language files (Pro edition). So you should distribute the following additional files with your program:
+
+## 1. Standard edition:
+- all resource DLLs (the same version which application currently has) which can be used (one DLL - one language);
+- you also need to distribute native language file (`projectname.ntv.lng`) to give your users an ability to create new translations of your program.
+So if you plan to give the users an ability to use your application in German and French (native is English) then you should distribute `projectname.DE` and `projectname.FR` files together with your .EXE.
+
+## 2. Pro edition:
+- native language file (in case it is not linked to your EXE);
+- all language files with translations which are planed to use.
+For the same case as in previous paragraph we need to distribute `projectname.ntv.lng`, `projectname.de.lng` and `projectname.fr.lng`.
+
+Using Pro edition you can also link several or all languages into .EXE file (see ["Project Settings"](/language-wizard/project-settings) topic, "Additional Options" page description). In such case you do not need to distribute any additional files. In most cases the better solution will be to include several most useful languages into .EXE and let users to get all other languages separately (for example to publish them on your web-site).
+
+
+:::note
+NOTE (using with software packing utilites):
+If you use some .EXE packing or protection utility (such as ASPack or ASProtect) then you should turn off resource packing for your project in that utility. Another way is to turn on "Create .NTV file" option in Localizer | Project Settings dialog and then distribute that .NTV file together with your application (it should be placed in the same folder with .EXE file). 
+:::

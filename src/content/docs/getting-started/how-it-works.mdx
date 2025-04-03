@@ -4,3 +4,24 @@ slug: getting-started/how-it-works
 sidebar:
   order: 6
 ---
+
+Working with Localizer you can divide the process into two main iterative steps:
+
+1. Project scanning. The developer run Language Wizard, it processes the project and saves information about all translated resources (strings, messages etc). in some auxiliary files (language files);
+2. Application translation. Using Language Manager utility the translator turn all saved resources into another language and saves the translated resources as new language file.
+
+## Language wizard
+Language Wizard is meant for the first step actions. It is a special Delphi IDE extension (expert) containing utilities for working with auxiliary files (language files and others).
+To extract information about properties wizard compiles the project, then processes the result file (.exe or .dll) and puts all resources to be translated (string properties, size and location properties, string constants) into the native language file named `<projectname>.ntv.lng`.
+To process string constants in your code and place them into resourcestring section Language Wizard includes special ["Extract hardcoded strings"](/language-wizard/hardcoded-strings) operation.
+
+## Language Manager
+Freely distributed Language Manager utility is meant for the second step actions. Using it you can create new or change the existing language file.
+To translate your application you need to create new language file on the basis of the native one. The new file has `<projectname>.xxx.lng` name, where xxx is a two or three-character language abbreviation (for example, EN means English language, DE – German, UKR – Ukrainian and so on). The developer can send the native language file and Language Manager utility to off-site translators. If Pro edition is used then the created language files can be used directly by the application. In case of Standard edition the developer or translator should create resource DLL that is distributed with the application or published for downloading.
+
+:::note
+Note: Localizer does not translate your strings
+It is important to understand that Localizer is not a tool that can automatically translate words or phrases into another language. It only provides a mechanism to make your Delphi project localized or multilingual. It is your (or your translator's) job to translate all strings of your program.
+:::
+
+However since version 1.5 Language Manager contains an ability to store translations to the special database named Language Repository. Language Repository can contain any number of words with their translations to any number of languages. You can apply those translations to your language files currently opened in Language Manager. So in such case some of words in your language file(s) will be translated automatically if their translations are stored in the Language Repository. To learn more about this feature – see the corresponding topic in the Language Manager help file. 

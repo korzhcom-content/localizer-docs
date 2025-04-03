@@ -43,18 +43,21 @@ To get an example of using see demo project EditorOnFly (Localizer\Samples\Edito
 
 :::note
 **Note for C++Builder users:**
-You should manually add \<projectname\>_klr.res file into your project (using Project Manager dialog):
-In addition you should manually include locutils.hpp or loconfly.hpp header file in all units where you plan to use Localizer or LocalizerOnFly global object (at least you should include that header into \<yourprojectname\>.cpp file).
+You should manually add `<projectname>_klr.res` file into your project (using Project Manager dialog):
+In addition you should manually include `locutils.hpp` or `loconfly.hpp` header file in all units where you plan to use Localizer or LocalizerOnFly global object (at least you should include that header into `<yourprojectname>.cpp` file).
 :::
 
 ## Refreshing
-You have to refresh language files if some changes are made in your project ("Localizer | Refresh Language Files"). Be sure that the project is compiled without errors before refreshing. Then repeat previous steps (except new language file creation).
+You have to refresh language files if some changes are made in your project (`Localizer | Refresh Language Files`). 
+Be sure that the project is compiled without errors before refreshing. 
+Then repeat previous steps (except new language file creation).
 
 ## Change size and positions of the controls
-If you need to change sizes and/or positions of the controls in your translation then you should add corresponding properties into the native language file. To do that - just add the following rules into "Property rules" list in "Project Settings" dialog:
-+.Width
-+.Height
-+.Left
-+.Top
+If you need to change sizes and/or positions of the controls in your translation then you should add corresponding properties into the native language file. To do that - just add the following rules into `Property rules` list in `Project Settings` dialog:
+
++ .Width
++ .Height
++ .Left
++ .Top
 
 Then make "Refresh" operation. All properties list in the rules above will be added into native and other language files - so the translator can change them if necessary. Language Manager has special filter which can be used to hide non-textual properties (like Width or Height) if they impede translation of string properties. 
