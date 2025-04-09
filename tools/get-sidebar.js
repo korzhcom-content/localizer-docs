@@ -12,19 +12,18 @@ const getSlug = (fullPath, root, sep) => {
 function traverseDirectory (dir, parent) {
     try {
         parent.label = fs.existsSync(dir + path.sep + '__section.md')
-            ? fs.readFileSync(dir + path.sep + '__section.md', 'utf8')
-                .split('\n')[0]
-                .replace('#', '').trim()
-            : dir.replace(root_docs, '')
+            ? fs.readFileSync(dir + path.sep + '__section.md', 'utf8').split('\n')[0].replace('#', '').trim() :
+            dir.replace(root_docs, '')
 
         const entries = fs.readdirSync(dir, { withFileTypes: true })
             .filter(entry => {
-                return !entry.name.startsWith('_') //&& entry.name !== 'index.md'
+                return !entry.name.startsWith('_')
             })
             .sort((a, b) => {
                 if (a.name === 'index.md' || b.name === 'index.md') {
-                  return -1
-                } 
+                    return -1
+                }
+
                 if (a.isDirectory() && b.isDirectory()) {
                     return a.name.localeCompare(b.name)
                 } else if (a.isDirectory()) {

@@ -1,0 +1,14 @@
+
+
+http://localhost:4321/localizer/docs/getting-started/new-in-3x
+/localizer/docs/language-wizard/project-settings-dialog
+
+
+http://localhost:4321/localizer/docs/language-wizard/overview
+/localizer/docs/language-wizard/refresh-language-files
+/localizer/docs/language-wizard/extract-hardcoded-strings
+/localizer/docs/language-wizard/switch-native-language
+
+
+http://localhost:4321/localizer/docs/language-wizard/refresh
+/localizer/docs/

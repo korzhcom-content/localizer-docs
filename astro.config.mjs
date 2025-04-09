@@ -24,10 +24,7 @@ export default defineConfig({
 			editLink: {
 				baseUrl: 'https://github.com/korzhcom-content/localizer-docs/edit/main/',
 			},
-			social: {
-				github: 'https://github.com/korzhcom-content/localizer-docs',
-				discord: 'https://discord.gg',
-			},
+			social: [],
 			sidebar: [
 				...getSidebar("./src/content/docs/getting-started", false),
 				...getSidebar("./src/content/docs/language-manager", true),
