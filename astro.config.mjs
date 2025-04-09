@@ -21,7 +21,6 @@ export default defineConfig({
 		starlight({
 			title: 'Localizer',
 			favicon: '/favicon.ico',
-			social: {},
 			sidebar: [
 				...getSidebar("./src/content/docs/getting-started", false),
 				...getSidebar("./src/content/docs/language-manager", true),
