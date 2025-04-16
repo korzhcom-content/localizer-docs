@@ -21,10 +21,6 @@ export default defineConfig({
 		starlight({
 			title: 'Localizer',
 			favicon: '/favicon.ico',
-			editLink: {
-				baseUrl: 'https://github.com/korzhcom-content/localizer-docs/edit/main/',
-			},
-			social: [],
 			sidebar: [
 				...getSidebar("./src/content/docs/getting-started", false),
 				...getSidebar("./src/content/docs/language-manager", true),
