@@ -1,0 +1,25 @@
+Report for: http://localhost:4321/localizer/docs
+
+
+Page: >>> http://localhost:4321/localizer/docs <<<
+-----------------------------------------------------------------
+[href:404] <link rel="sitemap" href="/localizer/docs/sitemap-index.xml">
+
+
+Page: >>> http://localhost:4321/localizer/docs/getting-started/new-in-3x <<<
+-----------------------------------------------------------------
+[href:404] <a href="/localizer/docs/language-wizard/project-settings-dialog">Language Wizard/Project Settings</a>
+
+
+Page: >>> http://localhost:4321/localizer/docs/language-wizard/overview <<<
+-----------------------------------------------------------------
+[href:404] <a href="/localizer/docs/language-wizard/refresh-language-files">Refresh Language Files</a>
+[href:404] <a href="/localizer/docs/language-wizard/extract-hardcoded-strings">Extract Hardcoded Strings</a>
+[href:404] <a href="/localizer/docs/language-wizard/switch-native-language">Switch Native Language</a>
+
+
+Page: >>> http://localhost:4321/localizer/docs/language-wizard/refresh <<<
+-----------------------------------------------------------------
+[href:404] <a href="/localizer/docs/">native language file</a>
+
+
