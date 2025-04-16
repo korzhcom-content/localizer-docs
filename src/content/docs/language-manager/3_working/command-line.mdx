@@ -4,3 +4,111 @@ slug: language-manager/3_working/command-line
 sidebar:
   order: 6
 ---
+
+You can pass parameters into Language Manager to perform some specific actions. Possible parameters are described below.
+
+```bash
+langmngr.exe filename.ntv.lng
+```
+Language Manager tries to open filename.ntv.lng project after starting.
+
+```bash
+langmngr.exe -last
+```
+
+Language Manager tries to open last opened project after starting.
+
+```bash
+langmngr.exe -lib filename.ntv.lng
+```
+
+Language Manager tries to open filename.ntv.lng library after starting.
+
+```bash
+langmngr.exe -synclangfiles filename.ntv.lng
+```
+Language Manager synchronizes (reopens and saves) all language files found in the filename.ntv.lng project folder. User interface is not shown. Language Manager terminates when synchronization is complete.
+
+```bash
+langmngr.exe -syncdlls [-pefile:pefilename.ext] filename.ntv.lng
+```
+
+Language Manager recreates all resource DLLs found in the filename.ntv.lng project folder. The action is the same as "Synchronize DLLs" when filename.ntv.lng project is open. User interface is not shown. Language Manager terminates when synchronization is complete.
+The -pefile: parameter indicates the PE file (EXE, BPL, DLL) that is used to generate resource DLLs. If this parameter is omitted then Language Manager tries to use filename.exe file.
+
+```bash
+langmngr.exe -syncall [-pefile:pefilename.ext] filename.ntv.lng
+```
+
+Language Manager performs two operations described above - synclangfiles and syncdlls - sequentially. User interface is not shown. Language Manager terminates when synchronization is complete.
+The -pefile: parameter indicates the PE file (EXE, BPL, DLL) that is used to generate resource DLLs. If this parameter is omitted then Language Manager tries to use filename.exe file.
+
+```bash
+langmngr.exe -dll [-pefile:pefilename.ext] filename.*.lng
+```
+
+Language Manager creates the resource DLL for the mentioned language file. User interface is not shown. Language Manager terminates when creation is complete. The files filename.ntv.lng and filename.ntv must exist in the same folder.
+The -pefile: parameter indicates the PE file (EXE, BPL, DLL) that is used to generate resource DLL. If this parameter is omitted then Language Manager tries to use filename.exe file.
+
+```bash 
+langmngr.exe -delatom
+```
+Language Manager allows only one copy of application to be launched. The special global atom is added on application start and is deleted on close. But if Language Manager is aborted unexpectedly, the atom is not deleted and the next time application will not start. To start Language Manager after abnormal termination use -delatom parameter.
+This parameter can be combined with any other.
+
+```bash
+langmngr.exe -debug
+```
+This parameter is used to show some additional information and to make a few options available. I.e. the internal properties and constants ID will be displayed, the project and repository repairing menu items will become available.
+
+```bash
+langmngr.exe -export:[all/language list] filename.ntv.lng [-outdir:exportdir] [-xml] [-cfg:configfile]
+```
+Language Manager exports the listed language files to the corresponding text files. User interface is not shown. Language Manager terminates when exporting is complete.
+Write all or leave empty string after -export: to export all languages found in the folder of native language file.
+List needed languages extensions separated by comma after -export: to define languages to be exported. I.e. -export:RUS, DE.
+Specify -xml param to export to XML files. By default it exports to text format. The config file should contain the [Export] section. I.e.:
+
+```toml
+[Export]
+Delimiter=Comma ; may be changed to Tab; does not concern to XML export
+IncludeID=1 ; 1 to include internal identifiers of properties and constants
+IncludeStringID=1 ; 1 to include constant strings numbers as they appears in resource DLL
+IncludeNames=1 ; 1 to include names of properties and constants (names include forms/units names, components names separated by dot). Is always True for XML export
+Translated=1 ; 1 if translated items are to be exported
+Untranslated=1 ; 1 if untranslated items are to be exported
+Untranslatable=1 ; 1 if untranslatable items are to be exported
+Encoding=0 ; 0=ANSI, 1=Unicode, 2=Utf-8; does not concern to XML export
+```
+
+```bash 
+langmngr.exe -import:[all/language list] filename.ntv.lng [-indir:importdir] [-xml] [-cfg:configfile]
+```
+Language Manager imports the corresponding text files to the listed language files . User interface is not shown. Language Manager terminates when importing is complete.
+Write all or leave empty string after -import: to import all proper text files found in the folder of native language file.
+List needed languages extensions separated by comma after -import: to define languages to be imported. I.e. -import:RUS, DE.
+Specify -xml param to import from XML files. By default it tries to import from text format. The config file should contain the [Import] section. I.e.:
+
+```toml
+[Import]
+ChangeTranslated=1 ; 1 if translated items are to be replaced with imported values
+SyncBy=1 ; 0=by ID, 1=by property/constant names
+```
+
+```bash
+langmngr.exe -translate:[all/language list] filename.ntv.lng [-cfg:configfile]
+```
+Language Manager tries to translate the specified language files using the current repository. Write all or leave empty string after -translate: to translate all language files found in the folder of native language file.
+List needed languages extensions separated by comma after -translate: to define languages to be translated. I.e. -translate:RUS, DE.
+The config file should contain the [Translate] section. I.e.:
+
+```toml
+[Translate]
+TranslateAll=1 ; 1 if all strings are to be translated independently of their "translated" status
+Smart=1 ; 1 if Language Manager should try to ignore "trailers" in the cells being translated via repository
+```
+
+```bash
+langmngr.exe -create:[language list] filename.ntv.lng
+```
+Language Manager creates the language files. List needed languages extensions separated by comma after -create: to define languages to be created. I.e. -create:RUS, DE. 

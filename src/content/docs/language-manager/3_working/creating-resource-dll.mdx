@@ -4,3 +4,47 @@ slug: language-manager/3_working/creating-resource-dll
 sidebar:
   order: 4
 ---
+
+Language Manager allows you to create resource DLLs for the languages you translate to. 
+To make this option available you need to select PE (portable executable) file that is used for DLLs generating. 
+Choose `File | Select PE file...` menu item and select your application file (EXE, BPL or DLL) in the appeared dialog.
+
+Select the column(s) you want to create resource DLLs for. 
+Then select `File | Create DLL` menu item. 
+If the native language is among the selected languages, it is ignored.
+
+If `File | Create DLL` menu item is present but disabled then the reason is one of the following:
+
+- You are trying to create DLL for native language;
+- The selected PE file does not exist or is not valid localized PE file;
+- The opened project is a library.
+
+:::note
+You may use command line parameter "-dll" to create resource DLLs in a batch mode.
+:::
+
+
+### Synchronizing resource DLLs
+
+You can also synchronize (recreate) all resource DLLs you created before. Select "File | Synchronize DLLs" menu item when some project is opened to do it.
+
+If there are modified but not saved files in your open project then saving changes query should appear. Press "Cancel" to cancel synchronizing.
+
+:::note
+If you decide not to save files then unsaved changes will not come into refreshed resource DLLs. The strings will have the same values as they have in the grid.
+:::
+
+
+### Error messages
+
+If there were errors during synchronizing then synchronization dialog should appear. Each string represents the name of one of processed DLLs and synchronization result. "Ok" mark says that synchronization was successful. Other possible messages are described below:
+
+- "Invalid language file" – program can not open the existing language file. Most probably, its format doesn't correspond to language files format.
+- "Is native" – DLL contains the native mark (once it was created as native), though it has not .ntv extension.
+- "Can not delete file" – program can not delete current file for its refreshing. Possibly, this file is opened by another program or has "read only" attribute.
+- "Can not create DLL" – there was an error during language DLL creating (this process includes native DLL loading, language file loading, language DLL saving).
+- "Unknown Error" – there is an error not described above. If error repeats and you can not find the cause then let support personnel know about it.
+
+:::note
+You may use command line parameter `-syncdlls` or `-syncall` to synchronize resource DLLs in a batch mode.
+:::

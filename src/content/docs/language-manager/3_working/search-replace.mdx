@@ -4,3 +4,55 @@ slug: language-manager/3_working/search-replace
 sidebar:
   order: 3
 ---
+
+The Language Manager gives you a tool for searching and replacing strings in the active language. The searching parameters may be set using the special dialogs.
+
+Search/replace commands are not available if more then one column is selected.
+
+
+### Searching
+
+Set the proper active language and select "Search | Find…" menu item to start searching. The "Find" dialog appears.
+
+Enter the text you wish to search for into Find what field. This field font corresponds to active language font.
+
+- [x] Match whole word only – mark to search for whole words only. Words are delimited with spaces, punctuation marks, brackets and arithmetic.
+- [x] Match whole cell only – mark to search for whole cells only. Cancels "Match whole word only" field.
+- [x] Match case – mark to perform case sensitive search. Otherwise the search is case insensitive.
+- [x] Search cyclically – mark if you want to search cyclically (search from the beginning when you have reached the end).
+
+Direction – mark appropriate radio button to set search direction markedradioitem Down (toward the last row) or markedradioitem Up (toward the first row).
+
+
+### Find Next / Find Prev
+
+"Search | Find Next" command repeats the previous Find command using all parameters set in the "Find" dialog including the direction.
+"Search | Find Prev" command does the same but in the in the opposite direction.
+
+
+### Replacing
+
+Set the proper active language and select "Search | Replace…" menu item to start searching and replacing. The "Replace" dialog appears.
+
+Enter into Replace with field text that should replace found text.
+These field font corresponds to active language font.
+
+Other parameters in the dialog are the same as in "Find" dialog.
+
+Press **"Replace All"** button to close dialog and replace all text occurrences according to dialog parameters.
+
+Press **"Start"** button to perform operated replacing. Special toolbar with the following buttons appears if "Find what" text was found:
+
++ **Find Next** – searches for next "Find what" text occurrence.
++ **Find Prev** – searches for previous "Find what" text occurrence.
++ **Replace** – replaces last found text with "Replace with" text and searches for next "Find what" text occurrence.
++ **Replace All** – closes dialog and replaces all text occurrences according to Replace dialog parameters.
+
+### Go to Line Number
+
+If you know the number of the row you want to jump to, it may be easily done by selecting "Search | Go to Line Number..." menu item. Input the row number in the appeared dialog end press "OK" button.
+
+### Searching the incorrectly formatted strings
+
+Sometimes translated strings contain format characters that does not correspond to the native string. This feature helps to find all such strings. Select "Search | Find incorrect formats" menu item. Then select "Search | Find Next" to find next problem string and "Search | Find Prev" to find the previous one. 
+

@@ -4,3 +4,26 @@ slug: language-manager/3_working/repository/filling
 sidebar:
   order: 1
 ---
+
+To add the values of the selected cells (or, rather, the pairs "native value - selected value") into the repository select "Repository | Add cell" menu item. The cells values will be added as a translations of the native language values.
+
+If native value being added already has the translation(s) in the repository, Language Manager behaviour is defined by the options set. The possible variants are the following:
+
++ [x] Append to Repository – the translation (if it is unique) is automatically appended to the Repository.
++ [x] Skip – the new translation is ignored.
++ [x] Ask user – the "Refresh repository" dialog appears, where the user can choose to append, to ignore or to replace some old translation with a new one.
+
+
+To add all translated values of the active language to the repository select "Repository | Refresh by language" menu item. The cells values will be added as a translations of the native language values in the corresponding rows.
+
+:::note
+Only strings marked as translated are added.
+:::
+
+The other way to fill the repository is to [import](language-manager/3_working/repository/export-import) some XML or MS Glossary file.
+
+You can also fill the repository manually, using the [repository form](language-manager/3_working/repository/form).
+
+:::note
+Only textual properties can be added to the repository.
+:::

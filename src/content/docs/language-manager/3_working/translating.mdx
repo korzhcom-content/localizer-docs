@@ -4,3 +4,42 @@ slug: language-manager/3_working/translating
 sidebar:
   order: 2
 ---
+
+Select the cell to be translated and change its value. Repeat this process for all strings or integers that are to be translated.
+
+Set ["Try to translate automatically"](/language-manager/2_explaining/customizing) option if you want Language Manager to search the same string as you have just translated each time you enter some new value into a cell. The "Replace" toolbar may appear if such string was found.
+This option doesn't work when you change a non-textual value. Moreover, the program doesn't allow you to enter wrong chars into the integer cells.
+
+The blue triangle in the cell right bottom corner indicates that its content was not translated yet. To change its state change the cell contents or use "Edit | Is translated" menu item.
+
+The cell can be single- or multiline depending on property type and value.
+
+The transition into edit mode is realized with `<F2>`, `<Enter>`, mouse click or click on "…" button (if it appears in the right side of the cell).
+Exit from edit mode:
+
++ confirming changes – `<Enter>`, proceed to another cell or `<Ctrl><Enter>` (just for multiline cells)
++ discarding changes – `<ESC>`
+
+
+
+Besides, you can edit any cell with multi-line editor just by pressing `<Ctrl><Enter>` on it. In this case the cell pretends to be multiline.
+
+If ["Use Multiline Cell Edit Dialog"](/language-manager/2_explaining/customizing) option is set then a special dialog appears for multiline cell editing.
+
+If you want to revert the string value to the value it has when the language file has been created, select "Edit | Revert to original" menu item.
+
+Above mentioned actions don't work for the cells that can not be edited.
+
+You may translate current cell or the current language using the [repository](/language-manager/3_working/repository).
+The strings that belong to some third-party library can be translated with ["Apply libraries"](/language-manager/3_working/applying-libraries) tool.
+
+If you want to automatically jump to the next cell when you changed the current cell or its status (translated/untranslated, untranslatable etc.), 
+you can set ["Move down automatically"](/language-manager/2_explaining/customizing) option.
+
+To view the native value of the cell being editing you can select `Edit | Show native value form` menu item. 
+The floating form with the native value will be displayed.
+
+
+Just for developers:
+You may make the current row untranslatable by selecting of `Edit | Is Untranslatable` menu item. 
+Depending on ["Show untranslatable items"](/language-manager/2_explaining/customizing) option the row will be hidden or marked out with a color. 

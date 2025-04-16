@@ -4,3 +4,20 @@ slug: language-manager/3_working/applying-libraries
 sidebar:
   order: 5
 ---
+
+Applying of the libraries is initiated by `Libraries | Apply Libraries…` menu item.
+
+This process consists in the substitution of the language files strings to corresponding strings of the libraries files according to synchronization rules. 
+Synchronization rules (by unit/constant name, by string ID) are set during creating of the library (using the Library Manager tool). 
+Libraries selected by the user are applied to all open language files in the project (except the native file).
+
+At first, the dialog of selecting of the libraries that are to be applied appears.
+Mark the libraries that you want to apply and press OK button.
+
+The applying process is displayed on the special progress-indicator.
+
+In the case, if there were any errors during working the `Apply Libraries` dialog appears. 
+It contains the results of applying of the libraries to the each open language in the project (except the native).
+For example, __"Report Builder…. Language file doesn't exist"__ line in the Russian language section says that the file ReportBuilder.RUS was not found in the Report Builder library folder (`External\ReportBuilder`).
+
+You can cancel introduced changes – just close the language file without saving changes. 
