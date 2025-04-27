@@ -16,12 +16,11 @@ const getEntryPointData = entry => {
         const dirPath = path.join(entry.parentPath, entry.name)
         if (fs.existsSync(path.join(dirPath, 'frontmatter.json'))) {
             const fm = JSON.parse(fs.readFileSync(path.join(dirPath, 'frontmatter.json'), 'utf8'))
-            if (fm.title) { name = fm.title } else {
-                if (fs.existsSync(path.join(dirPath, '__section.md'))) {
-                    name = fs.readFileSync(path.join(dirPath, '__section.md'), 'utf8').split('\n')[0].replace('#', '').trim()
-                }
-            }
+            if (fm.title) { name = fm.title }
             if (fm.sidebar && fm.sidebar.order) { order = fm.sidebar.order }
+        }
+        if (fs.existsSync(path.join(dirPath, '__section.md'))) {
+            name = fs.readFileSync(path.join(dirPath, '__section.md'), 'utf8').split('\n')[0]?.replace('#', '')?.trim()
         }
     } else {
         const fm = matter(fs.readFileSync(path.join(entry.parentPath, entry.name), 'utf8'))
@@ -89,6 +88,8 @@ function traverseDirectory (dir, parent) {
             })
             .sort(sortEntries)
 
+        // console.log(entries)
+        
         entries.forEach(entry => {
             const fullPath = path.join(dir, entry.name)
             if (entry.isDirectory()) {
