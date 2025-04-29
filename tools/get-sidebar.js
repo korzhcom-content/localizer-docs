@@ -11,7 +11,7 @@ const getSlug = (fullPath, root, sep) => {
 
 const getEntryPointData = entry => {
     let name = entry.name, order = -1
-    
+
     if (entry.isDirectory()) {
         const dirPath = path.join(entry.parentPath, entry.name)
         if (fs.existsSync(path.join(dirPath, 'frontmatter.json'))) {
@@ -29,7 +29,7 @@ const getEntryPointData = entry => {
             order = fm.data.sidebar.order
         }
     }
-    
+
     return [order,  name]
 }
 
@@ -65,31 +65,37 @@ const sortBy = (a , b) => {
 }
 
 const sortEntries = (a, b) => {
-    const [aOrder, aName] = getEntryPointData(a)
-    const [bOrder, bName] = getEntryPointData(b)
+    let [aOrder, aName] = getEntryPointData(a)
+    let [bOrder, bName] = getEntryPointData(b)
+
+    if (a.name === 'index.md') { aOrder = 100 }
+    if (b.name === 'index.md') { bOrder = 100 }
 
     if (aOrder < 0 || bOrder < 0) {
         // console.log(`Compare by name: ${aName} vs ${bName}`)
         return aName.localeCompare(bName, "en")
     }
-    // console.log(`Compare by order: ${a.name} vs ${b.name}`)
+    // if (a.parentPath.includes('common-sql')) {
+    //     console.log(`Compare by order: ${a.name} ${aOrder} vs ${b.name} ${bOrder}`)
+    // }
+
     return aOrder - bOrder
 }
 
 function traverseDirectory (dir, parent) {
     try {
         parent.label = fs.existsSync(dir + path.sep + '__section.md')
-            ? fs.readFileSync(dir + path.sep + '__section.md', 'utf8').split('\n')[0].replace('#', '').trim() :
-            dir.replace(root_docs, '')
+          ? fs.readFileSync(dir + path.sep + '__section.md', 'utf8').split('\n')[0].replace('#', '').trim() :
+          dir.replace(root_docs, '')
 
         const entries = fs.readdirSync(dir, { withFileTypes: true })
-            .filter(entry => {
-                return !entry.name.startsWith('_') && !entry.name.endsWith('.json')
-            })
-            .sort(sortEntries)
+          .filter(entry => {
+              return !entry.name.startsWith('_') && !entry.name.endsWith('.json')
+          })
+          .sort(sortEntries)
 
-        // console.log(entries)
-        
+        // console.log(entries.filter(entry => entry.parentPath.includes('common-sql')))
+
         entries.forEach(entry => {
             const fullPath = path.join(dir, entry.name)
             if (entry.isDirectory()) {
