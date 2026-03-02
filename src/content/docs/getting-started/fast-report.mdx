@@ -31,17 +31,17 @@ Here are the examples of using these functions:
 ```pascal
 procedure TForm1.btShowReportObjClick(Sender: TObject);
 begin
-//here we translate some TfrxReport component which holds the report inside.
-TranslateReportObj(frxReport1);
-frxReport1.ShowReport;
+    //here we translate some TfrxReport component which holds the report inside.
+    TranslateReportObj(frxReport1);
+    frxReport1.ShowReport;
 end;
 
 procedure TForm1.btShowReportFileClick(Sender: TObject);
 begin
-//now we do the translation of some report file.
-frxReport2.LoadFromFile('test2.fr3');
-TranslateReportFile(frxReport2, 'test2.fr3');
-frxReport2.ShowReport;
+    //now we do the translation of some report file.
+    frxReport2.LoadFromFile('test2.fr3');
+    TranslateReportFile(frxReport2, 'test2.fr3');
+    frxReport2.ShowReport;
 end;
 ```
 

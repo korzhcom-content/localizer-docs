@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.34.3",
+    "@expressive-code/plugin-line-numbers": "^0.41.2",
     "@olton/spider": "^0.2.0",
     "@olton/terminal": "^0.6.0",
     "astro": "^5.7.13",

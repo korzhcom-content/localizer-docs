@@ -127,7 +127,6 @@ table {
     padding-inline-start: 1rem;
 }
 
-code {
-    border-radius: 4px;
-    white-space: nowrap;
+.sl-markdown-content table:not(:where(.not-content *)) {
+    font-size: 0.8em;
 }

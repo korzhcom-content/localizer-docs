@@ -44,6 +44,9 @@ export default defineConfig({
 				starlightThemeRapide(),
 				starlightImageZoom(),
 			],
+			expressiveCode: {
+				themes: ['dark-plus', 'github-light']
+			},
 			tableOfContents: {
 				minHeadingLevel: 2,
 				maxHeadingLevel: 4,

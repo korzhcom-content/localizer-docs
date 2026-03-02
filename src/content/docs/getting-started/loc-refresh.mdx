@@ -31,17 +31,17 @@ dcc32.exe --drc -B yourproject.dpr
 
 Usual sequance of project build process will be the following:
 
-```log
+```bash
 rem --- first call of LocRefresh (for initialization) ---
 locrefresh.exe yourproject.dpr -pefile:yourproject.exe -action:init
 ```
 
-```log
+```bash
 rem --- project compilation ---  
 dcc32 -B --drc -U<library path> yourproject.dpr
 ```
 
-```log
+```bash
 rem --- second call of LocRefresh (to update language files) ---
 LocRefresh.exe yourproject.dpr -pefile:yourproject.exe -action:perform
 ```
